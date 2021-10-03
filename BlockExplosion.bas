@@ -1,12 +1,13 @@
-' SmallBASIC 12.23
-' "Block Explosion" by Joerg Siebenmorgen, 2021
+REM SmallBASIC 12.23
+REM "Let them fall" by PIXELGUY
 
 delay(100)
+w=window()
 
 if(rinstr(SBVER,"Android"))
   IS_ANDROID = true
 else
-  w=window()
+  
   w.setSize(680, 850)
   IS_ANDROID = false
 endif
@@ -20,7 +21,7 @@ const BOARD_Y = 14
 const INFO_X = 4
       PIXELSIZE = 1
       TILESIZE = 16
-const FONTSIZE = textheight("Yy")*1.1
+      FONTSIZE = 8
 const GAME_COLUMN_IS_MOVING = 0
 const GAME_COLUMN_IS_FALLING = 1
 const GAME_REMOVE_BLOCKS = 2
@@ -134,7 +135,7 @@ while GAME_IS_RUNNING
   showpage
   EndTime = ticks()
   TimeStep = EndTime - StartTime
-  at 1,SCREEN_Y - 4*FONTSIZE: print TimeStep;"ms     "
+  'at 1,SCREEN_Y - 4*FONTSIZE: print TimeStep;"ms     "
   'print Status 
   
   if(TimeStep < 20)
@@ -527,9 +528,6 @@ end sub
 
 sub GameSettings()
 
-  at (SCREEN_X - textwidth("BLOCK EXPLOSION by Pixelguy") )/ 2  , TILESIZE
-  print "BLOCK EXPLOSION by Pixelguy"
-
   at 2*TILESIZE, 3*TILESIZE - FONTSIZE/2
   print "Start Level: "; StartLevel 
   
@@ -538,7 +536,6 @@ sub GameSettings()
   
   at 2*TILESIZE, 9*TILESIZE - FONTSIZE/2
   print "Sound: "
-  
   
   
 end
@@ -568,7 +565,7 @@ sub DrawScore()
   rect posx, BOARD_OFFSET_Y + 4*FONTSIZE, posx + (INFO_X-1.2)*TILESIZE, BOARD_OFFSET_Y + 5*FONTSIZE, ColorPalette[10] filled
   
   if(PointsTemp > 0) then
-    at posx,BOARD_OFFSET_Y + 4*FONTSIZE:print PointsTotal; " + "; PointsTemp
+    at posx,BOARD_OFFSET_Y + 4*FONTSIZE:print PointsTotal; "+"; PointsTemp
   else
     at posx,BOARD_OFFSET_Y + 4*FONTSIZE:print PointsTotal
   endif
@@ -879,10 +876,10 @@ sub CreateButtons()
 	
   else 'Lanscape
   	
-	B_Cycle = ButtonClass.AddButton(0, SCREEN_Y/2 - 3*TILESIZE                           , 4*TILESIZE, 3*TILESIZE, "Cycle", @Callback_Cycle)
-	B_Drop  = ButtonClass.AddButton(0, SCREEN_Y/2 - 3*TILESIZE + 3*TILESIZE + 5*PIXELSIZE, 4*TILESIZE, 3*TILESIZE, "Drop", @Callback_Drop)
-	B_Right = ButtonClass.AddButton(SCREEN_X - 4*TILESIZE, SCREEN_Y/2 - 3*TILESIZE                           , 4*TILESIZE, 3*TILESIZE, ">", @Callback_Right)
-	B_Left  = ButtonClass.AddButton(SCREEN_X - 4*TILESIZE, SCREEN_Y/2 - 3*TILESIZE + 3*TILESIZE + 5*PIXELSIZE, 4*TILESIZE, 3*TILESIZE, "<", @Callback_Left) 
+	B_Cycle = ButtonClass.AddButton(0, SCREEN_Y/2 - 4*TILESIZE                           , 6*TILESIZE, 4*TILESIZE, "Cycle", @Callback_Cycle)
+	B_Drop  = ButtonClass.AddButton(0, SCREEN_Y/2 - 4*TILESIZE + 4*TILESIZE + 5*PIXELSIZE, 6*TILESIZE, 4*TILESIZE, "Drop", @Callback_Drop)
+	B_Right = ButtonClass.AddButton(SCREEN_X - 6*TILESIZE, SCREEN_Y/2 - 4*TILESIZE                           , 6*TILESIZE, 4*TILESIZE, ">", @Callback_Right)
+	B_Left  = ButtonClass.AddButton(SCREEN_X - 6*TILESIZE, SCREEN_Y/2 - 4*TILESIZE + 4*TILESIZE + 5*PIXELSIZE, 6*TILESIZE, 4*TILESIZE, "<", @Callback_Left) 
   	B_Pause = ButtonClass.AddButton(0                    , SCREEN_Y - 3*TILESIZE, 2*TILESIZE, 2*TILESIZE, "Pause", @Callback_Pause)
 	B_Menu  = ButtonClass.AddButton(SCREEN_X - 2*TILESIZE, SCREEN_Y - 3*TILESIZE, 2*TILESIZE, 2*TILESIZE, "Menu", @Callback_Menu)
 	
@@ -1105,6 +1102,8 @@ sub InitScreen()
   TILES_Y = round(SCREEN_Y / TILESIZE)
   BOARD_OFFSET_X = floor(((SCREEN_X - (BOARD_X + INFO_X)*TILESIZE)/2)/TILESIZE)*TILESIZE
   BOARD_OFFSET_Y = TILESIZE
+  w.setFont(8*PIXELSIZE,"px",0,0)
+  FONTSIZE = textheight("Yy")*1.1
 end sub
 
 sub CreateColorPalette()
@@ -1258,7 +1257,7 @@ data -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
 data -1,-1,-1,17,17,17,17,17,17,17,17,17,17,-1,-1,-1
 data -1,-1,17, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,17,-1,-1
 data -1,18, 4,15,15,15,15,15,15,15,15,15,15, 4,17,-1
-data 18, 4,16,15,15,21,15,15,15, 4,21,15,15,15, 4,17
+data 18, 4,16,15,15,21,15,15,15,15,21,15,15,15, 4,17
 data 17, 4,15,15,21,20,15,15,15,15,20,21,15,15, 4,17
 data 17, 4,15,22,20,19,15, 4,17,15,19,20,22,15, 4,17
 data 17, 4,15,22,20,19,15,17,16,15,19,20,22,15, 4,17
